@@ -288,14 +288,14 @@
             <button type="button" class="lookup" aria-label="取引先検索">🔍</button>
           </div>
 
-          <label for="projectName" class="required">案件名</label>
-          <input id="projectName" name="projectName" class="wide" type="text" placeholder="案件名">
+          <label for="propertyName" class="required">物件名</label>
+          <input id="propertyName" name="propertyName" class="wide" type="text" placeholder="物件名">
 
-          <label for="estimateNo">見積注文番号</label>
-          <input id="estimateNo" name="estimateNo" type="text" placeholder="例：MIT-000001">
+          <label for="customerContact">取引先担当者</label>
+          <input id="customerContact" name="customerContact" type="text" placeholder="取引先担当者">
 
-          <label for="orderNo">注文書番号</label>
-          <input id="orderNo" name="orderNo" type="text" placeholder="例：ORD-000001">
+          <label for="orderNumber">注文番号</label>
+          <input id="orderNumber" name="orderNumber" type="text" placeholder="例：ORD-000001">
 
           <label for="amountBasis" class="required">金額根拠</label>
           <select id="amountBasis" name="amountBasis">
@@ -305,8 +305,8 @@
             <option>その他</option>
           </select>
 
-          <label for="amount" class="required">金額</label>
-          <input id="amount" name="amount" type="text" inputmode="numeric" placeholder="例：1200000">
+          <label for="amountBasisNote">金額根拠補足</label>
+          <input id="amountBasisNote" name="amountBasisNote" type="text" placeholder="補足">
 
           <label for="expectedOrderDate" class="required">受注予定日</label>
           <input id="expectedOrderDate" name="expectedOrderDate" type="date">
@@ -314,8 +314,8 @@
           <label for="expectedSalesDate" class="required">売上予定日</label>
           <input id="expectedSalesDate" name="expectedSalesDate" type="date">
 
-          <label for="note">備考</label>
-          <textarea id="note" name="note" class="full" placeholder="備考"></textarea>
+          <label for="competitor">競合先</label>
+          <textarea id="competitor" name="competitor" class="full" placeholder="競合先"></textarea>
         </div>
       </section>
 
@@ -324,18 +324,22 @@
         <div class="form-grid">
           <label>分類</label>
           <div class="radio-row wide">
-            <label><input type="radio" name="category" checked> 特販</label>
-            <label><input type="radio" name="category"> 税判売</label>
-            <label><input type="radio" name="category"> 支店</label>
-            <label><input type="radio" name="category"> 業務工場</label>
-            <label><input type="radio" name="category"> 海外工場</label>
+            <label><input type="radio" name="category" value="特約店" checked> 特約店</label>
+            <label><input type="radio" name="category" value="取引先"> 取引先</label>
+            <label><input type="radio" name="category" value="支店"> 支店</label>
+            <label><input type="radio" name="category" value="滋賀工場"> 滋賀工場</label>
+            <label><input type="radio" name="category" value="苫小牧工場"> 苫小牧工場</label>
+            <label><input type="radio" name="category" value="下関工場"> 下関工場</label>
           </div>
 
           <label for="deliveryName">納入先名称</label>
           <input id="deliveryName" name="deliveryName" class="wide" type="text" placeholder="納入先名">
 
-          <label for="deliveryDept">部署/役職</label>
-          <input id="deliveryDept" name="deliveryDept" type="text" placeholder="部署または役職">
+          <label for="prefecture">都道府県</label>
+          <input id="prefecture" name="prefecture" type="text" placeholder="都道府県">
+
+          <label for="address">住所</label>
+          <input id="address" name="address" type="text" placeholder="住所">
 
           <label for="postalCode">郵便番号</label>
           <div class="inline">
@@ -343,14 +347,11 @@
             <button type="button" class="lookup" aria-label="郵便番号検索">🔍</button>
           </div>
 
-          <label for="address">住所</label>
-          <input id="address" name="address" class="wide" type="text" placeholder="住所">
+          <label for="receivingContact">荷受担当</label>
+          <input id="receivingContact" name="receivingContact" type="text" placeholder="荷受担当">
 
           <label for="phone">電話番号</label>
           <input id="phone" name="phone" type="text" placeholder="0123456789">
-
-          <label for="fax">FAX番号</label>
-          <input id="fax" name="fax" type="text" placeholder="0123456789">
         </div>
       </section>
 
