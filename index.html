@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>販売管理システム - 受注入力</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #f4f6f8;
+      color: #1f2933;
+      font-family: "Meiryo", "Yu Gothic", system-ui, sans-serif;
+      font-size: 13px;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    button {
+      min-width: 86px;
+      border: 1px solid #b7c0ca;
+      border-radius: 4px;
+      padding: 7px 16px;
+      background: #fff;
+      color: #1f2933;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    button.primary {
+      border-color: #2780b9;
+      background: #2d9cdb;
+      color: #fff;
+    }
+
+    .form-shell {
+      border: 1px solid #d8dee5;
+      background: #fff;
+    }
+
+    .section {
+      border-top: 1px solid #d8dee5;
+      padding: 12px 18px;
+    }
+
+    .section:first-child {
+      border-top: 0;
+    }
+
+    .section-title {
+      margin: 0 0 10px;
+      color: #52616f;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 150px minmax(180px, 360px) 130px minmax(180px, 1fr);
+      align-items: center;
+      gap: 6px 10px;
+    }
+
+    label {
+      text-align: right;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    label.required::before {
+      content: "*";
+      color: #d40000;
+      margin-right: 4px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      min-height: 28px;
+      border: 1px solid #bfc7d1;
+      border-radius: 3px;
+      padding: 4px 7px;
+      background: #fff;
+      color: #1f2933;
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 58px;
+      resize: vertical;
+    }
+
+    .wide {
+      grid-column: span 3;
+    }
+
+    .full {
+      grid-column: span 3;
+    }
+
+    .inline {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .code {
+      max-width: 120px;
+      flex: 0 0 120px;
+    }
+
+    .lookup {
+      min-width: 32px;
+      width: 32px;
+      padding: 4px 0;
+      font-size: 12px;
+    }
+
+    .radio-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      min-height: 28px;
+    }
+
+    .radio-row label {
+      display: inline-flex;
+      gap: 4px;
+      align-items: center;
+      text-align: left;
+      font-weight: 400;
+    }
+
+    .radio-row input {
+      width: auto;
+      min-height: 0;
+    }
+
+    .hint {
+      color: #66788a;
+      font-size: 12px;
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        padding: 12px;
+      }
+
+      .toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .actions {
+        width: 100%;
+      }
+
+      button {
+        flex: 1;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      label {
+        text-align: left;
+      }
+
+      .wide,
+      .full {
+        grid-column: auto;
+      }
+
+      .inline {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .code {
+        max-width: none;
+        flex-basis: auto;
+      }
+
+      .lookup {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <div class="toolbar">
+      <h1>受注入力</h1>
+      <div class="actions">
+        <button type="button">キャンセル</button>
+        <button type="submit" form="orderForm" class="primary">登録</button>
+      </div>
+    </div>
+
+    <form id="orderForm" class="form-shell">
+      <section class="section">
+        <p class="section-title">基本情報</p>
+        <div class="form-grid">
+          <label for="slipType" class="required">伝票区分</label>
+          <select id="slipType" name="slipType">
+            <option>一般</option>
+            <option>サンプル</option>
+          </select>
+
+          <label for="department" class="required">部署</label>
+          <select id="department" name="department">
+            <option>福岡支店 営業課</option>
+            <option>名古屋支店 営業課</option>
+            <option>大阪支店 営業課</option>
+            <option>仙台支店 営業課</option>
+          </select>
+
+          <label for="orderStaff" class="required">受注担当者</label>
+          <select id="orderStaff" name="orderStaff">
+            <option>宮崎　博考</option>
+            <option>山田　太郎</option>
+            <option>鈴木　一郎</option>
+            <option>高橋　大輔</option>
+          </select>
+
+          <label for="rank" class="required">ランク</label>
+          <select id="rank" name="rank">
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+            <option>D</option>
+            <option>E</option>
+          </select>
+
+          <label for="customerCode" class="required">取引先</label>
+          <div class="inline wide">
+            <select id="customerCode" name="customerCode" class="code">
+              <option value="1111111">1111111</option>
+              <option value="2222222">2222222</option>
+              <option value="3333333">3333333</option>
+              <option value="4444444">4444444</option>
+              <option value="5555555">5555555</option>
+              <option value="6666666">6666666</option>
+              <option value="7777777">7777777</option>
+              <option value="8888888">8888888</option>
+              <option value="9999999">9999999</option>
+            </select>
+            <select id="customerName" name="customerName">
+              <option>大和建設株式会社</option>
+              <option>日本冷蔵装置株式会社</option>
+              <option>田中建築株式会社</option>
+              <option>東都設備工業株式会社</option>
+              <option>西日本物流株式会社</option>
+              <option>北辰食品株式会社</option>
+              <option>青葉メンテナンス株式会社</option>
+              <option>中央電機サービス株式会社</option>
+              <option>未来環境システム株式会社</option>
+            </select>
+            <button type="button" class="lookup" aria-label="取引先検索">🔍</button>
+          </div>
+
+          <label for="projectName" class="required">案件名</label>
+          <input id="projectName" name="projectName" class="wide" type="text" placeholder="案件名">
+
+          <label for="estimateNo">見積注文番号</label>
+          <input id="estimateNo" name="estimateNo" type="text" placeholder="例：MIT-000001">
+
+          <label for="orderNo">注文書番号</label>
+          <input id="orderNo" name="orderNo" type="text" placeholder="例：ORD-000001">
+
+          <label for="amountBasis" class="required">金額根拠</label>
+          <select id="amountBasis" name="amountBasis">
+            <option>見積書</option>
+            <option>内示関連書類</option>
+            <option>注文書</option>
+            <option>その他</option>
+          </select>
+
+          <label for="amount" class="required">金額</label>
+          <input id="amount" name="amount" type="text" inputmode="numeric" placeholder="例：1200000">
+
+          <label for="expectedOrderDate" class="required">受注予定日</label>
+          <input id="expectedOrderDate" name="expectedOrderDate" type="date">
+
+          <label for="expectedSalesDate" class="required">売上予定日</label>
+          <input id="expectedSalesDate" name="expectedSalesDate" type="date">
+
+          <label for="note">備考</label>
+          <textarea id="note" name="note" class="full" placeholder="備考"></textarea>
+        </div>
+      </section>
+
+      <section class="section">
+        <p class="section-title">分類・納入情報</p>
+        <div class="form-grid">
+          <label>分類</label>
+          <div class="radio-row wide">
+            <label><input type="radio" name="category" checked> 特販</label>
+            <label><input type="radio" name="category"> 税判売</label>
+            <label><input type="radio" name="category"> 支店</label>
+            <label><input type="radio" name="category"> 業務工場</label>
+            <label><input type="radio" name="category"> 海外工場</label>
+          </div>
+
+          <label for="deliveryName">納入先名称</label>
+          <input id="deliveryName" name="deliveryName" class="wide" type="text" placeholder="納入先名">
+
+          <label for="deliveryDept">部署/役職</label>
+          <input id="deliveryDept" name="deliveryDept" type="text" placeholder="部署または役職">
+
+          <label for="postalCode">郵便番号</label>
+          <div class="inline">
+            <input id="postalCode" name="postalCode" type="text" placeholder="1234567">
+            <button type="button" class="lookup" aria-label="郵便番号検索">🔍</button>
+          </div>
+
+          <label for="address">住所</label>
+          <input id="address" name="address" class="wide" type="text" placeholder="住所">
+
+          <label for="phone">電話番号</label>
+          <input id="phone" name="phone" type="text" placeholder="0123456789">
+
+          <label for="fax">FAX番号</label>
+          <input id="fax" name="fax" type="text" placeholder="0123456789">
+        </div>
+      </section>
+
+      <section class="section">
+        <p class="section-title">特約店情報</p>
+        <div class="form-grid">
+          <label for="partnerCode">特約店コード</label>
+          <div class="inline wide">
+            <input id="partnerCode" name="partnerCode" class="code" type="text" value="9999999">
+            <input id="partnerName" name="partnerName" type="text" placeholder="名称">
+            <button type="button" class="lookup" aria-label="特約店検索">🔍</button>
+          </div>
+
+          <label for="partnerAddress">住所</label>
+          <input id="partnerAddress" name="partnerAddress" class="wide" type="text" placeholder="住所">
+
+          <label for="partnerPhone">電話番号</label>
+          <input id="partnerPhone" name="partnerPhone" type="text">
+
+          <label for="partnerFax">FAX番号</label>
+          <input id="partnerFax" name="partnerFax" type="text">
+
+          <label class="hint">補足</label>
+          <p class="hint wide">ダミーサイト用の入力画面です。検索ボタンや登録処理は未接続です。</p>
+        </div>
+      </section>
+    </form>
+  </main>
+</body>
+</html>
