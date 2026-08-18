@@ -136,13 +136,6 @@
       flex: 0 0 120px;
     }
 
-    .lookup {
-      min-width: 32px;
-      width: 32px;
-      padding: 4px 0;
-      font-size: 12px;
-    }
-
     .radio-row {
       display: flex;
       flex-wrap: wrap;
@@ -210,9 +203,6 @@
         flex-basis: auto;
       }
 
-      .lookup {
-        width: 100%;
-      }
     }
   </style>
 </head>
@@ -265,7 +255,7 @@
             <option>E</option>
           </select>
 
-          <label for="customerCode" class="required">取引先</label>
+          <label for="customerName" class="required">取引先名称</label>
           <div class="inline wide">
             <select id="customerCode" name="customerCode" class="code">
               <option value="" selected>選択してください</option>
@@ -291,17 +281,16 @@
               <option>中央電機サービス株式会社</option>
               <option>未来環境システム株式会社</option>
             </select>
-            <button type="button" class="lookup" aria-label="取引先検索">🔍</button>
           </div>
-
-          <label for="propertyName" class="required">物件名</label>
-          <input id="propertyName" name="propertyName" class="wide" type="text" placeholder="物件名">
 
           <label for="customerContact">取引先担当者</label>
           <input id="customerContact" name="customerContact" type="text" placeholder="取引先担当者">
 
-          <label for="orderNumber">注文番号</label>
+          <label for="orderNumber">取引先注文番号</label>
           <input id="orderNumber" name="orderNumber" type="text" placeholder="例：ORD-000001">
+
+          <label for="propertyName" class="required">物件名称</label>
+          <input id="propertyName" name="propertyName" class="wide" type="text" placeholder="物件名称">
 
           <label for="amountBasis" class="required">金額根拠</label>
           <select id="amountBasis" name="amountBasis">
@@ -322,7 +311,7 @@
           <input id="expectedSalesDate" name="expectedSalesDate" type="date">
 
           <label for="competitor">競合先</label>
-          <textarea id="competitor" name="competitor" class="full" placeholder="競合先"></textarea>
+          <input id="competitor" name="competitor" class="wide" type="text" placeholder="競合先">
         </div>
       </section>
 
@@ -349,10 +338,7 @@
           <input id="address" name="address" type="text" placeholder="住所">
 
           <label for="postalCode">郵便番号</label>
-          <div class="inline">
-            <input id="postalCode" name="postalCode" type="text" placeholder="1234567">
-            <button type="button" class="lookup" aria-label="郵便番号検索">🔍</button>
-          </div>
+          <input id="postalCode" name="postalCode" type="text" placeholder="1234567">
 
           <label for="receivingContact">荷受担当</label>
           <input id="receivingContact" name="receivingContact" type="text" placeholder="荷受担当">
