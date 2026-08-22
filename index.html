@@ -136,6 +136,26 @@
       flex: 0 0 120px;
     }
 
+    .textarea-panel {
+      position: relative;
+    }
+
+    .textarea-action {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      min-width: 150px;
+      padding: 5px 10px;
+      background: #eef7fd;
+      border-color: #9ecce7;
+      color: #155a80;
+      font-size: 12px;
+    }
+
+    .textarea-panel textarea {
+      padding-top: 38px;
+    }
+
     .radio-row {
       display: flex;
       flex-wrap: wrap;
@@ -160,6 +180,81 @@
     .hint {
       color: #66788a;
       font-size: 12px;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(15, 23, 42, 0.45);
+      z-index: 10;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal {
+      width: min(920px, 100%);
+      max-height: 90vh;
+      overflow: auto;
+      border: 1px solid #c9d2dc;
+      border-radius: 6px;
+      background: #fff;
+      box-shadow: 0 18px 48px rgba(15, 23, 42, 0.28);
+    }
+
+    .modal-header,
+    .modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid #d8dee5;
+    }
+
+    .modal-footer {
+      justify-content: flex-end;
+      border-top: 1px solid #d8dee5;
+      border-bottom: 0;
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .modal-body {
+      padding: 16px;
+      overflow-x: auto;
+    }
+
+    .condition-table {
+      width: 100%;
+      border-collapse: collapse;
+      white-space: nowrap;
+    }
+
+    .condition-table th,
+    .condition-table td {
+      border: 1px solid #cbd5df;
+      padding: 8px 10px;
+      text-align: left;
+    }
+
+    .condition-table th {
+      background: #edf1f5;
+      font-weight: 700;
+    }
+
+    .condition-table input[type="checkbox"] {
+      width: auto;
+      min-height: 0;
     }
 
     @media (max-width: 760px) {
@@ -201,6 +296,16 @@
       .code {
         max-width: none;
         flex-basis: auto;
+      }
+
+      .textarea-action {
+        position: static;
+        width: 100%;
+        margin-bottom: 6px;
+      }
+
+      .textarea-panel textarea {
+        padding-top: 4px;
       }
 
     }
@@ -320,6 +425,12 @@
       <section class="section">
         <p class="section-title">分類・納入情報</p>
         <div class="form-grid">
+          <label for="tradeTerms">取引条件</label>
+          <div class="textarea-panel wide">
+            <button type="button" id="openTradeTerms" class="textarea-action">取引条件から選択</button>
+            <textarea id="tradeTerms" name="tradeTerms" placeholder="取引条件"></textarea>
+          </div>
+
           <label>分類</label>
           <div class="radio-row wide">
             <label><input type="radio" name="category" value="特約店" checked> 特約店</label>
@@ -352,12 +463,77 @@
 
     </form>
   </main>
+
+  <div id="tradeTermsModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="tradeTermsModalTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="tradeTermsModalTitle" class="modal-title">取引条件から選択</h2>
+      </div>
+      <div class="modal-body">
+        <table class="condition-table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" id="selectAllConditions" aria-label="すべて選択"></th>
+              <th>金額（以上）</th>
+              <th>金額（未満）</th>
+              <th>締日</th>
+              <th>支払月</th>
+              <th>支払日</th>
+              <th>支払区分</th>
+              <th>サイト</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><input type="checkbox" class="condition-check" aria-label="取引条件を選択"></td>
+              <td>0</td>
+              <td>0</td>
+              <td>末</td>
+              <td>翌月</td>
+              <td>15</td>
+              <td>電子記録債権</td>
+              <td>120</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="cancelTradeTerms">キャンセル</button>
+        <button type="button" id="okTradeTerms" class="primary">OK</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     const customerCode = document.getElementById("customerCode");
     const customerName = document.getElementById("customerName");
+    const openTradeTerms = document.getElementById("openTradeTerms");
+    const tradeTermsModal = document.getElementById("tradeTermsModal");
+    const okTradeTerms = document.getElementById("okTradeTerms");
+    const cancelTradeTerms = document.getElementById("cancelTradeTerms");
+    const selectAllConditions = document.getElementById("selectAllConditions");
+    const conditionChecks = document.querySelectorAll(".condition-check");
 
     customerName.addEventListener("change", () => {
       customerCode.selectedIndex = customerName.selectedIndex;
+    });
+
+    openTradeTerms.addEventListener("click", () => {
+      tradeTermsModal.classList.add("open");
+    });
+
+    okTradeTerms.addEventListener("click", () => {
+      tradeTermsModal.classList.remove("open");
+    });
+
+    cancelTradeTerms.addEventListener("click", () => {
+      tradeTermsModal.classList.remove("open");
+    });
+
+    selectAllConditions.addEventListener("change", () => {
+      conditionChecks.forEach((checkbox) => {
+        checkbox.checked = selectAllConditions.checked;
+      });
     });
   </script>
 </body>
