@@ -137,23 +137,23 @@
     }
 
     .textarea-panel {
-      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .textarea-toolbar {
+      display: flex;
+      justify-content: flex-end;
     }
 
     .textarea-action {
-      position: absolute;
-      top: 6px;
-      right: 6px;
       min-width: 150px;
       padding: 5px 10px;
       background: #eef7fd;
       border-color: #9ecce7;
       color: #155a80;
       font-size: 12px;
-    }
-
-    .textarea-panel textarea {
-      padding-top: 38px;
     }
 
     .radio-row {
@@ -298,14 +298,12 @@
         flex-basis: auto;
       }
 
-      .textarea-action {
-        position: static;
-        width: 100%;
-        margin-bottom: 6px;
+      .textarea-toolbar {
+        justify-content: stretch;
       }
 
-      .textarea-panel textarea {
-        padding-top: 4px;
+      .textarea-action {
+        width: 100%;
       }
 
     }
@@ -427,7 +425,9 @@
         <div class="form-grid">
           <label for="tradeTerms">取引条件</label>
           <div class="textarea-panel wide">
-            <button type="button" id="openTradeTerms" class="textarea-action">取引条件から選択</button>
+            <div class="textarea-toolbar">
+              <button type="button" id="openTradeTerms" class="textarea-action">取引条件から選択</button>
+            </div>
             <textarea id="tradeTerms" name="tradeTerms" placeholder="取引条件"></textarea>
           </div>
 
@@ -508,6 +508,7 @@
     const customerCode = document.getElementById("customerCode");
     const customerName = document.getElementById("customerName");
     const openTradeTerms = document.getElementById("openTradeTerms");
+    const tradeTerms = document.getElementById("tradeTerms");
     const tradeTermsModal = document.getElementById("tradeTermsModal");
     const okTradeTerms = document.getElementById("okTradeTerms");
     const cancelTradeTerms = document.getElementById("cancelTradeTerms");
@@ -523,6 +524,12 @@
     });
 
     okTradeTerms.addEventListener("click", () => {
+      const selectedRows = Array.from(document.querySelectorAll(".condition-check:checked"));
+      const rows = selectedRows.length ? selectedRows : Array.from(conditionChecks);
+      tradeTerms.value = rows.map((checkbox) => {
+        const cells = Array.from(checkbox.closest("tr").querySelectorAll("td")).slice(1);
+        return cells.map((cell) => cell.textContent.trim()).join(",");
+      }).join("\n");
       tradeTermsModal.classList.remove("open");
     });
 
