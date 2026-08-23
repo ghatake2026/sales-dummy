@@ -56,6 +56,29 @@ function sanitizeOrder(input) {
   }, {});
 }
 
+async function readResponseBody(response) {
+  const text = await response.text();
+  if (!text) return null;
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    return { error: text };
+  }
+}
+
+function sendSupabaseResponse(res, response, data) {
+  if (!response.ok) {
+    console.error("Supabase request failed", {
+      status: response.status,
+      statusText: response.statusText,
+      data,
+    });
+  }
+
+  res.status(response.status).json(data);
+}
+
 module.exports = async function handler(req, res) {
   if (!SUPABASE_URL || !SUPABASE_KEY) {
     res.status(500).json({
@@ -70,8 +93,8 @@ module.exports = async function handler(req, res) {
       `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?select=${encodeURIComponent(select)}&order=created_at.desc`,
       { headers: getSupabaseHeaders() }
     );
-    const data = await response.json();
-    res.status(response.status).json(data);
+    const data = await readResponseBody(response);
+    sendSupabaseResponse(res, response, data);
     return;
   }
 
@@ -85,8 +108,8 @@ module.exports = async function handler(req, res) {
       },
       body: JSON.stringify(order),
     });
-    const data = await response.json();
-    res.status(response.status).json(data);
+    const data = await readResponseBody(response);
+    sendSupabaseResponse(res, response, data);
     return;
   }
 
