@@ -113,6 +113,26 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  res.setHeader("Allow", "GET, POST");
+  if (req.method === "DELETE") {
+    const id = req.query && req.query.id;
+
+    if (!id || !/^\d+$/.test(String(id))) {
+      res.status(400).json({ error: "A valid id is required." });
+      return;
+    }
+
+    const response = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE_NAME}?id=eq.${id}`, {
+      method: "DELETE",
+      headers: {
+        ...getSupabaseHeaders(),
+        Prefer: "return=representation",
+      },
+    });
+    const data = await readResponseBody(response);
+    sendSupabaseResponse(res, response, data);
+    return;
+  }
+
+  res.setHeader("Allow", "GET, POST, DELETE");
   res.status(405).json({ error: "Method not allowed." });
 };

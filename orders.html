@@ -73,6 +73,11 @@
       font-weight: 700;
     }
 
+    .delete-button {
+      border-color: #d34a4a;
+      color: #b42323;
+    }
+
     .status {
       margin: 0 0 10px;
       color: #52616f;
@@ -120,6 +125,7 @@
             <th>荷受担当</th>
             <th>電話番号</th>
             <th>売上予定日</th>
+            <th>操作</th>
           </tr>
         </thead>
         <tbody id="ordersBody"></tbody>
@@ -153,6 +159,41 @@
       row.appendChild(cell);
     }
 
+    function appendDeleteCell(row, order) {
+      const cell = document.createElement("td");
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "delete-button";
+      button.textContent = "削除";
+      button.addEventListener("click", () => deleteOrder(order));
+      cell.appendChild(button);
+      row.appendChild(cell);
+    }
+
+    async function deleteOrder(order) {
+      const customerName = order.customerName || "";
+      const confirmed = window.confirm(`${customerName} のデータを削除しますか？`);
+
+      if (!confirmed) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/orders?id=${encodeURIComponent(order.id)}`, {
+          method: "DELETE",
+        });
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || data.error || "削除に失敗しました。");
+        }
+
+        await loadOrders();
+      } catch (error) {
+        alert(error.message);
+      }
+    }
+
     async function loadOrders() {
       try {
         const response = await fetch("/api/orders");
@@ -166,6 +207,7 @@
         data.forEach((order) => {
           const row = document.createElement("tr");
           columns.forEach((column) => appendCell(row, order[column]));
+          appendDeleteCell(row, order);
           ordersBody.appendChild(row);
         });
 
