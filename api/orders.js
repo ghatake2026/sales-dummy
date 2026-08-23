@@ -1,7 +1,11 @@
 const SUPABASE_URL = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
-const SUPABASE_KEY =
-  process.env.SUPABASE_SECRET_KEY ||
-  process.env.SUPABASE_SERVICE_ROLE_KEY;
+const SUPABASE_KEY_CANDIDATES = [
+  process.env.SUPABASE_SERVICE_ROLE_KEY,
+  process.env.SUPABASE_SECRET_KEY,
+];
+const SUPABASE_KEY = SUPABASE_KEY_CANDIDATES.find((key) => {
+  return key && (key.startsWith("eyJ") || key.startsWith("sb_secret_"));
+});
 
 const TABLE_NAME = "sales_dummy_orders";
 const COLUMNS = [
@@ -24,6 +28,7 @@ function getSupabaseHeaders() {
     "Content-Type": "application/json",
   };
 
+  // Legacy service_role keys are JWTs. New sb_secret_ keys must be sent only as apikey.
   if (SUPABASE_KEY && SUPABASE_KEY.startsWith("eyJ")) {
     headers.Authorization = `Bearer ${SUPABASE_KEY}`;
   }
@@ -53,7 +58,9 @@ function sanitizeOrder(input) {
 
 module.exports = async function handler(req, res) {
   if (!SUPABASE_URL || !SUPABASE_KEY) {
-    res.status(500).json({ error: "Supabase environment variables are not configured." });
+    res.status(500).json({
+      error: "Supabase environment variables are not configured or the key format is invalid.",
+    });
     return;
   }
 
