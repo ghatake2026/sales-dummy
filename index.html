@@ -486,7 +486,7 @@
           <div class="compact-grid grid-one">
             <div class="field">
               <label for="competitor">競合先</label>
-              <input id="competitor" name="competitor" type="text" placeholder="競合先">
+              <textarea id="competitor" name="competitor" placeholder="競合先"></textarea>
             </div>
           </div>
 
@@ -531,17 +531,21 @@
             </div>
           </div>
 
-          <div class="compact-grid grid-four">
+          <div class="compact-grid grid-one">
             <div class="field">
               <label for="orderNumber">取引先注文番号</label>
               <input id="orderNumber" name="orderNumber" type="text" placeholder="例：ORD-000001">
             </div>
+          </div>
 
+          <div class="compact-grid grid-one">
             <div class="field">
               <label for="propertyName" class="required">物件名称</label>
               <input id="propertyName" name="propertyName" type="text" placeholder="物件名称">
             </div>
+          </div>
 
+          <div class="compact-grid grid-two">
             <div class="field">
               <label for="expectedOrderDate" class="required">受注予定日</label>
               <input id="expectedOrderDate" name="expectedOrderDate" type="date">
