@@ -9,18 +9,28 @@
       box-sizing: border-box;
     }
 
+    html,
+    body {
+      height: 100%;
+    }
+
     body {
       margin: 0;
+      overflow: hidden;
       background: #f4f6f8;
       color: #1f2933;
       font-family: "Meiryo", "Yu Gothic", system-ui, sans-serif;
-      font-size: 13px;
+      font-size: 12px;
     }
 
     .page {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 20px;
+      height: 100vh;
+      max-width: none;
+      margin: 0;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
     }
 
     .toolbar {
@@ -28,19 +38,19 @@
       justify-content: space-between;
       align-items: center;
       gap: 16px;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
     }
 
     h1 {
       margin: 0;
-      font-size: 20px;
+      font-size: 18px;
     }
 
     a,
     button {
       border: 1px solid #b7c0ca;
       border-radius: 4px;
-      padding: 7px 14px;
+      padding: 5px 10px;
       background: #fff;
       color: #1f2933;
       cursor: pointer;
@@ -50,13 +60,16 @@
     }
 
     .table-wrap {
-      overflow-x: auto;
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
       border: 1px solid #d8dee5;
       background: #fff;
     }
 
     table {
-      width: 100%;
+      width: max-content;
+      min-width: 100%;
       border-collapse: collapse;
       white-space: nowrap;
     }
@@ -64,7 +77,7 @@
     th,
     td {
       border-bottom: 1px solid #d8dee5;
-      padding: 8px 10px;
+      padding: 5px 8px;
       text-align: left;
     }
 
@@ -79,12 +92,12 @@
     }
 
     .status {
-      margin: 0 0 10px;
+      margin: 0 0 8px;
       color: #52616f;
     }
 
     .empty {
-      padding: 24px;
+      padding: 18px;
       color: #66788a;
       text-align: center;
     }
@@ -118,6 +131,7 @@
             <th>取引先担当者</th>
             <th>取引先注文番号</th>
             <th>物件名称</th>
+            <th>取引条件</th>
             <th>納入先名称</th>
             <th>郵便番号</th>
             <th>都道府県</th>
@@ -140,6 +154,7 @@
       "customerContact",
       "orderNumber",
       "propertyName",
+      "tradeTerms",
       "deliveryName",
       "postalCode",
       "prefecture",

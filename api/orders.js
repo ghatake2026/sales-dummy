@@ -13,6 +13,7 @@ const COLUMNS = [
   "customerContact",
   "orderNumber",
   "propertyName",
+  "tradeTerms",
   "deliveryName",
   "postalCode",
   "prefecture",
